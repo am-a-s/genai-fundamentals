@@ -27,10 +27,22 @@ retriever = VectorRetriever(
 )
 
 # Create the LLM
+llm = OpenAILLM(model_name="gpt-4o")
+
 
 # Create GraphRAG pipeline
+rag = GraphRAG(retriever=retriever, llm=llm)
 
-# Search 
+# Search
+query_text = "Find me movies about toys coming alive"
 
-# CLose the database connection
+response = rag.search(
+    query_text=query_text, 
+    retriever_config={"top_k": 5}
+)
+
+print(response.answer)
+
+
+# Close the database connection
 driver.close()
